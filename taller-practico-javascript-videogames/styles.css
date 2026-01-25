@@ -1,0 +1,120 @@
+:root{
+    --primary-color: #0f172a;
+    --button-color: #00f2ff;
+    --neon-glow: #0066ff;
+    --alert-color:#ff0055;
+    --color-text: #e2e8f0;
+    --small-print: 1.2rem;
+    --medium-print: 1.8rem;
+    --large-print: 2.4rem;
+    --font-family: 'Orbitron', sans-serif;
+
+}
+
+body{
+    width: 100%;
+    height: 100vh;
+    background-color: var(--primary-color);
+    background: linear-gradient(0deg,rgba(15, 23, 42, 1) 0%, rgba(56, 55, 55, 1) 100%);
+}
+
+/* Section tittle */
+.contenedor-titulo {
+  text-align: center;
+  padding: 20px;
+  background: transparent;
+}
+
+.titulo-neon {
+  font-family: var(--font-family);
+  font-size: 3.5rem;
+  color: var(--button-color);
+  text-transform: uppercase;
+  margin-bottom: 0;
+
+  text-shadow: 
+    0 0 7px var(--button-color),
+    0 0 10px var(--button-color),
+    0 0 21px var(--button-color),
+    0 0 42px var(--neon-glow),
+    0 0 82px var(--alert-color),
+    0 0 92px var(--neon-glow),
+    0 0 102px var(--alert-color),
+    0 0 151px var(--neon-glow);
+}
+
+.subtitulo {
+  font-family: var(--font-family);
+  color: #ff0055; 
+  letter-spacing: 10px;
+  font-size: 1rem;
+  text-shadow: 0 0 10px #ff0055;
+  margin-top: -10px;
+}
+
+.flicker {
+  animation: parpadeo 3s linear infinite;
+}
+
+.titulo-neon:hover {
+  animation: vibrar 0.1s linear infinite;
+}
+
+/* Section main*/
+
+p{
+    color: var(--button-color);
+    font-family: var(--font-family);
+    font-size: large;
+}
+button {
+  background: rgba(63, 62, 62, 0.05);
+  backdrop-filter: blur(5px);
+  border: 1px solid var(--button-color);
+  color: var(--button-color);
+  font-family: var(--font-family);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--button-color);
+  color: #000;
+  box-shadow: 0 0 20px var(--button-color);
+}
+#game {
+  background-color: #0a0a12;
+  background-image: 
+    linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 40px 40px; /* Ajusta al tamaño de tus celdas */
+  border: 2px solid #00f2ff;
+  box-shadow: 0 0 15px #00f2ff;
+  border-radius: 8px;
+}
+
+@keyframes parpadeo {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+    text-shadow: 
+      0 0 7px #fff,
+      0 0 10px #fff,
+      0 0 42px var(--neon-color),
+      0 0 82px var(--neon-color);
+    opacity: 1;
+  }
+  20%, 24%, 55% {        
+    text-shadow: none;
+    opacity: 0.3;
+  }
+}
+
+@keyframes vibrar {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}

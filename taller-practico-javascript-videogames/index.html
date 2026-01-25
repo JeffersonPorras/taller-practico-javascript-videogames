@@ -4,24 +4,41 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=egde">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./styles.css">
     <title>Juego Online</title>
 </head>
 <body>
-    <div class="game-container">
-        <canvas id="game"></canvas>
-
-        <div class="btns">
-            <button id="up">Arriba</button>
-            <button id="down">Abajo</button>
-            <button id="left">Izuierda</button>
-            <button id="right">Derecha</button>
+    <section class="header">
+        <div class="contenedor-titulo">
+            <h1 class="titulo-neon">N<span class="flicker">EO</span>N <span class="flicker">LABY</span>RI<span class="flicker">NT</span>H</h1>
+            <p class="subtitulo">SYSTEM FAILURE</p>
         </div>
+    </section>
+    
 
-        <div class="messages">
-            <p>Parrafo</p>
+    <section class="main">
+        
+        <div class="game-container">
+            <canvas id="game"></canvas>
+    
+            <div class="btns">
+                <button id="up">up</button>
+                <button id="down">down</button>
+                <button id="left">left</button>
+                <button id="right">right</button>
+            </div>
+    
+            <div class="messages">
+                <p>life</p>
+                <p>Time</p>
+                <p>Recdord</p>
+            </div>
         </div>
-    </div>
+    </section>
+    <section class="footer">
+
+    </section>
 
     <script src="./maps.js"></script>
     <script src="./game.js"></script>
