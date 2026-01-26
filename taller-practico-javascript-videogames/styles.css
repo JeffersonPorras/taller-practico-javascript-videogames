@@ -19,6 +19,12 @@ body{
 }
 
 /* Section tittle */
+
+.header{
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
 .contenedor-titulo {
   text-align: center;
   padding: 20px;
@@ -27,10 +33,10 @@ body{
 
 .titulo-neon {
   font-family: var(--font-family);
-  font-size: 3.5rem;
+  font-size:var(--large-print);
   color: var(--button-color);
   text-transform: uppercase;
-  margin-bottom: 0;
+  margin-bottom: 10px;
 
   text-shadow: 
     0 0 7px var(--button-color),
@@ -62,6 +68,11 @@ body{
 
 /* Section main*/
 
+.main{
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
 p{
     color: var(--button-color);
     font-family: var(--font-family);
