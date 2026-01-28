@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=egde">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="./styles.css">
     <title>Juego Online</title>
 </head>
@@ -23,11 +22,21 @@
         <div class="game-container">
             <canvas id="game"></canvas>
     
-            <div class="btns">
-                <button id="up">up</button>
-                <button id="down">down</button>
-                <button id="left">left</button>
-                <button id="right">right</button>
+            <div class="controls">
+                <button class="btn-control" id="up" onclick="mover('up')">
+                    <span class="flecha">↑</span>
+                </button>
+                <div class="fila-media">
+                    <button class="btn-control" id="left" onclick="mover('left')">
+                        <span class="flecha">←</span>
+                        <button class="btn-control" id="down" onclick="mover('down')">
+                            <span class="flecha">↓</span>
+                        </button>
+                    </button>
+                    <button class="btn-control" id="right" onclick="mover('right')">
+                        <span class="flecha">→</span>
+                    </button>
+                </div>
             </div>
     
             <div class="messages">

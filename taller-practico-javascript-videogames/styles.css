@@ -73,28 +73,62 @@ body{
   display: flex;
   justify-content: space-evenly;
 }
-p{
-    color: var(--button-color);
-    font-family: var(--font-family);
-    font-size: large;
-}
-button {
-  background: rgba(63, 62, 62, 0.05);
-  backdrop-filter: blur(5px);
-  border: 1px solid var(--button-color);
-  color: var(--button-color);
-  font-family: var(--font-family);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  transition: 0.3s;
-  cursor: pointer;
+
+.controls{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
 }
 
-button:hover {
+.fila-media{
+  display: flex;
+  gap: 15px;
+}
+
+.btn-control{
+  width: 60px;
+  height: 60px;
+  background: rgba(0, 242, 255, 0.1);
+  border: 2px solid var(--button-color);
+  border-radius: 12px;
+  color: var(--button-color);
+  font-size: var(--large-print);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+}
+
+.btn-control:hover{
+  background: rgba(0, 242, 255, 0.3);
+  box-shadow: 0 0 20px rgba(0, 242, 255, 0.6);
+  transform: scale(1.05);
+}
+
+.btn-control:active{
+  transform: scale(0.9);
   background: var(--button-color);
   color: #000;
-  box-shadow: 0 0 20px var(--button-color);
 }
+ 
+.btn-control i{
+  filter: drop-shadow(0 0 5px var(--button-color));
+  }
+  
+  p{
+      color: var(--button-color);
+      font-family: var(--font-family);
+      font-size: large;
+  }
+  .flecha{
+    font-size: var(--large-print);
+    color: var(--button-color);
+    text-shadow: 0 0 10px var(--button-color);
+  }
+
 #game {
   background-color: #0a0a12;
   background-image: 
