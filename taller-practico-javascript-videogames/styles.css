@@ -134,10 +134,12 @@ body{
   background-image: 
     linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
-  background-size: 40px 40px; /* Ajusta al tamaño de tus celdas */
-  border: 2px solid #00f2ff;
-  box-shadow: 0 0 15px #00f2ff;
+  background-size: 10% 10%;
+  border: 2px solid var(--button-color);
+  box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
   border-radius: 8px;
+  display: block;
+  margin:  0 auto;
 }
 
 @keyframes parpadeo {
@@ -145,8 +147,8 @@ body{
     text-shadow: 
       0 0 7px #fff,
       0 0 10px #fff,
-      0 0 42px var(--neon-color),
-      0 0 82px var(--neon-color);
+      0 0 42px var(--button-color),
+      0 0 82px var(--neon-glow);
     opacity: 1;
   }
   20%, 24%, 55% {        
