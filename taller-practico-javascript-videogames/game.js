@@ -7,6 +7,13 @@ const buttonRight = document.querySelector('#right');
 
 let canvasSize;
 let elementSize;
+let lives = 3;
+let level = 0;
+
+const playerPosicion = {
+    x: undefined,
+    y: undefined
+}
 
 window.addEventListener('load',setCanvasSize);
 window.addEventListener('resize',setCanvasSize);
@@ -29,12 +36,16 @@ function setCanvasSize() {
 function startGame() {
 
     game.clearRect(0, 0, canvasSize, canvasSize)
-
     game.font = (elementSize * 0.8) + 'px Verdana';
     game.textAlign = 'center';
     game.textBaseline = 'middle';
+
+    if (!maps[level]) {
+    console.log("Juego Terminado - Ganaste Todo");
+    return;
+    }
  
-    const map = maps[1];
+    const map = maps[level];
     const mapRows = map.trim().split('\n');
     const mapRowCols = mapRows.map(row => row.trim().split(''))
 
@@ -45,18 +56,38 @@ function startGame() {
             const posY = elementSize * rowI + (elementSize / 2);   
             
             if (emoji) {
+
+                game.shadowBlur = 0;
+                game.shadowColor = 'transaparent';
+
+                if (col === 'X'){
+                    game.shadowBlur = 25;
+                    game.shadowColor = "#ff0000"
+                }else if (col === 'I'){
+                    game.shadowBlur = 20;
+                    game.shadowColor = "#ffee00"
+                }else if (col === 'O') {
+                    game.shadowBlur = 15;
+                    game.shadowColor = "#aa00ff";
+                }
+
                 game.fillText(emoji,posX,posY)  
+            }
+
+            if (col == 'O' && playerPosicion.x == undefined) {
+                playerPosicion.x = colI;
+                playerPosicion.y =rowI;
             }
         });
     });
-
+    movePlayer();
 }
 
 window.addEventListener('keydown', moveByKeys);
 buttonUp.addEventListener('click',moveUp)
 buttonDown.addEventListener('click',moveDown)
-buttonRight.addEventListener('click',moveLeft)
-buttonLeft.addEventListener('click',moveRight)
+buttonRight.addEventListener('click',moveRight)
+buttonLeft.addEventListener('click',moveLeft)
 
 function moveByKeys(event) {
 
@@ -78,26 +109,84 @@ function moveByKeys(event) {
             break;
     }
 }
-/* if (event.key == 'ArrowUp') {
-        moveUp()
-    } */
+
 
 function moveUp() {
-    console.log('sube');
+   if (playerPosicion.y > 0) {
+     playerPosicion.y -= 1;
+     startGame();
+     checkCollision();
+   }
     
 }
 
 function moveDown() {
-    console.log('baja');
+    if (playerPosicion.y < 9) {
+     playerPosicion.y += 1;
+     startGame();
+     checkCollision();
+   }
     
 }
 
 function moveLeft() {
-    console.log('izquierda');
+    if (playerPosicion.x > 0) {
+     playerPosicion.x -= 1;
+     startGame();
+     checkCollision();
+   }
     
 }
 
 function moveRight() {
-    console.log('derecha');
+   if (playerPosicion.x < 9) {
+     playerPosicion.x += 1;
+     startGame();
+     checkCollision();
+   }
     
+}
+
+function movePlayer() {
+    const posX = elementSize * playerPosicion.x + (elementSize / 2);
+    const posY= elementSize * playerPosicion.y + (elementSize / 2);
+
+    game.shadowBlur = 30;
+    game.shadowColor = "#00f2ff";
+
+    game.font = (elementSize * 0.8) + 'px Verdana';
+
+    game.fillText(emojis['PLAYER'], posX, posY)
+}
+
+function checkCollision() {
+    
+    const map = maps[level];
+    const mapRows = map.trim().split('\n');
+    const mapRowCols = mapRows.map(row => row.trim().split(''));
+
+    const symbol = mapRowCols[playerPosicion.y][playerPosicion.x];
+
+    if (symbol == 'X') {
+        levelFail();
+    }else if (symbol == 'I') {
+        levelWin();
+    }
+}
+
+function levelWin() {
+    level++
+    startGame();
+}
+
+function levelFail() {
+    const posX = elementSize * playerPosicion.x + (elementSize / 2);
+    const posY = elementSize * playerPosicion.y + (elementSize / 2);
+    game.fillText(emojis['BOMB_COLLISION'],posX, posY);
+
+    setTimeout(() => {
+        playerPosicion.x = undefined;
+        playerPosicion.y = undefined;
+        startGame();
+    },500);
 }
