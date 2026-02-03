@@ -4,6 +4,8 @@ const buttonUp = document.querySelector('#up');
 const buttonDown = document.querySelector('#down');
 const buttonLeft = document.querySelector('#left');
 const buttonRight = document.querySelector('#right');
+const spanLives = document.querySelector('#lives');
+
 
 let canvasSize;
 let elementSize;
@@ -81,6 +83,7 @@ function startGame() {
         });
     });
     movePlayer();
+    showLives();
 }
 
 window.addEventListener('keydown', moveByKeys);
@@ -180,13 +183,25 @@ function levelWin() {
 }
 
 function levelFail() {
-    const posX = elementSize * playerPosicion.x + (elementSize / 2);
-    const posY = elementSize * playerPosicion.y + (elementSize / 2);
-    game.fillText(emojis['BOMB_COLLISION'],posX, posY);
+    lives--;
+    
+    if (lives == 0) {
+        level = 0;
+        lives = 3; 
+        console.log("GAME OVER - Reiniciando...");
 
-    setTimeout(() => {
-        playerPosicion.x = undefined;
-        playerPosicion.y = undefined;
-        startGame();
-    },500);
+    }
+    playerPosicion.x = undefined;
+    playerPosicion.y = undefined;
+    startGame();
+}
+
+function showLives() {
+    const heartsArray = Array(lives).fill('❤️');
+
+    spanLives.innerHTML = "";
+    heartsArray.forEach(heart => {
+        spanLives.append(heart);
+    });
+
 }

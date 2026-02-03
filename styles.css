@@ -142,6 +142,11 @@ body{
   margin:  0 auto;
 }
 
+#lives{
+  font-size: var(--medium-print);
+  text-shadow: 0 0 10px #ff0055, 0 0 20px #ff0055;
+}
+
 @keyframes parpadeo {
   0%, 18%, 22%, 25%, 53%, 57%, 100% {
     text-shadow: 
