@@ -147,6 +147,13 @@ body{
   text-shadow: 0 0 10px #ff0055, 0 0 20px #ff0055;
 }
 
+#time, #record {
+  font-family:'Courier New', Courier, monospace;
+  font-weight: bold;
+  color: #fbff00;
+  text-shadow: 0 0 5px #fbff00;
+} 
+
 @keyframes parpadeo {
   0%, 18%, 22%, 25%, 53%, 57%, 100% {
     text-shadow: 
