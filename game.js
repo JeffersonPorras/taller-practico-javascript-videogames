@@ -16,6 +16,7 @@ let level = 0;
 let timeStart;
 let timePlayer;
 let timeInterval;
+let currentMap;
 
 const playerPosicion = {
     x: undefined,
@@ -47,13 +48,22 @@ function startGame() {
     game.textAlign = 'center';
     game.textBaseline = 'middle';
 
-    if (!maps[level]) {
-    console.log("Juego Terminado - Ganaste Todo");
-    return;
+    
+
+    if (level < maps.length) {
+        currentMap = maps[level];
+    }else if (level < 100) {
+        if(!currentMap || level >= maps.length){
+            if (!currentMap) currentMap = generateRandomMap();
+        }
+    }else{
+        console.log("!HAS CONQUISTADO EL SISTEMA!");
+        gameFinished();
+        return;  
     }
  
-    const map = maps[level];
-    const mapRows = map.trim().split('\n');
+    
+    const mapRows = currentMap.trim().split('\n');
     const mapRowCols = mapRows.map(row => row.trim().split(''))
 
     mapRowCols.forEach((row,rowI) => {
@@ -180,10 +190,8 @@ function movePlayer() {
 
 function checkCollision() {
     
-    const map = maps[level];
-    const mapRows = map.trim().split('\n');
+    const mapRows = currentMap.trim().split('\n');
     const mapRowCols = mapRows.map(row => row.trim().split(''));
-
     const symbol = mapRowCols[playerPosicion.y][playerPosicion.x];
 
     if (symbol == 'X') {
@@ -195,12 +203,10 @@ function checkCollision() {
 
 function levelWin() {
     console.log('!Nivel Superado!');
-    level++
-
-    if (!maps[level]) {
-        gameFinished();
-        return;
-    }
+    level++;
+    currentMap = undefined;
+    playerPosicion.x = undefined;
+    playerPosicion.y = undefined;
     startGame();
 }
 
@@ -246,6 +252,7 @@ function levelFail() {
         level = 0;
         lives = 3; 
         timeStart = undefined;
+        currentMap = undefined;
         console.log("GAME OVER - Reiniciando...");
 
     }
@@ -263,4 +270,50 @@ function showLives() {
         spanLives.append(heart);
     });
 
+}
+
+function generateRandomMap() {
+
+    let mapString = "";
+    let solvable = false;
+
+    while(!solvable){
+        const newMap = [];
+        const bombProbility = Math.min(0.15 + (level * 0.5), 0.35);
+
+        for (let i = 0; i < 10; i++) {
+            let row = "";
+            for (let j = 0; j < 10; j++) {
+                row += (Math.random() < bombProbility) ? "X" : "-"    
+            }
+            newMap.push(row);
+        }
+        newMap[9] = "O" + newMap[9].substring(1);
+        newMap[0] = newMap[0].substring(0, 9) + "I"
+        mapString = newMap.join("\n");
+
+        solvable = isMapSolvable(mapString);
+    }
+    return mapString
+}          
+
+function isMapSolvable(mapSrting) {
+    const rows = mapSrting.trim().split('\n').map(r => r.trim().split(''));
+    let start = {x: 0, y: 9};
+    let queue = [start];
+    let visited = new Set(['0,9']);
+
+    while(queue.length > 0){
+        let {x, y} = queue.shift();
+        if (rows[y][x] === 'I') return true;
+
+        [[0,1],[0, -1],[1, 0],[-1, 0]].forEach(([dx, dy]) => {
+            let nx = x + dx, ny = y + dy;
+            if (nx >= 0 && nx < 10 && ny >= 0 && ny < 10 && rows[ny][nx] !== 'X' && !visited.has(`${nx},${ny}`)) {
+                visited.add(`${nx},${ny}`);
+                queue.push({x: nx, y: ny});                
+            }
+        });
+    }
+    return false;
 }
