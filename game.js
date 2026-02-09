@@ -7,6 +7,10 @@ const buttonRight = document.querySelector('#right');
 const spanLives = document.querySelector('#lives');
 const spanTime = document.querySelector('#time');
 const spanRecord = document.querySelector('#record');
+const spanlevel = document.querySelector('#level');
+const startScreen = document.querySelector('#start-screen');
+const btnStart = document.querySelector('#btn-start');
+const btnMute = document.querySelector('#btn-mute');
 
 
 let canvasSize;
@@ -17,14 +21,37 @@ let timeStart;
 let timePlayer;
 let timeInterval;
 let currentMap;
+let music = null;
+let isMuted = false;
+
+const explosiónAudio = new Audio('./Assets/explosión.mp3');
+explosiónAudio.volume = 0.5;
 
 const playerPosicion = {
     x: undefined,
     y: undefined
 }
 
-window.addEventListener('load',setCanvasSize);
+
 window.addEventListener('resize',setCanvasSize);
+
+btnStart.addEventListener('click', () =>{
+    startScreen.classList.add('hidden');
+    backgroundSound();
+    setCanvasSize();
+})
+
+ btnMute.addEventListener('click', () => {
+    isMuted = !isMuted;
+
+    btnMute.innerHTML = isMuted ? "🔇" : "🔊";
+
+    if(!music){
+        music.muted = isMuted;
+    }
+})
+
+
 
 function setCanvasSize() {
     if (window.innerHeight > window.innerWidth) {
@@ -105,6 +132,7 @@ function startGame() {
     }
     movePlayer();
     showLives();
+    showLevel();
 }
 
 function showTime() {
@@ -119,6 +147,8 @@ buttonRight.addEventListener('click',moveRight)
 buttonLeft.addEventListener('click',moveLeft)
 
 function moveByKeys(event) {
+
+    if (!startScreen.classList.contains('hidden')) return;
 
     let flecha = event.key
     switch (flecha) {
@@ -141,6 +171,9 @@ function moveByKeys(event) {
 
 
 function moveUp() {
+
+    if (!startScreen.classList.contains('hidden')) return;
+
    if (playerPosicion.y > 0) {
      playerPosicion.y -= 1;
      startGame();
@@ -150,6 +183,9 @@ function moveUp() {
 }
 
 function moveDown() {
+
+    if (!startScreen.classList.contains('hidden')) return;
+
     if (playerPosicion.y < 9) {
      playerPosicion.y += 1;
      startGame();
@@ -159,6 +195,9 @@ function moveDown() {
 }
 
 function moveLeft() {
+
+    if (!startScreen.classList.contains('hidden')) return;
+
     if (playerPosicion.x > 0) {
      playerPosicion.x -= 1;
      startGame();
@@ -168,6 +207,9 @@ function moveLeft() {
 }
 
 function moveRight() {
+
+    if (!startScreen.classList.contains('hidden')) return;
+
    if (playerPosicion.x < 9) {
      playerPosicion.x += 1;
      startGame();
@@ -186,6 +228,7 @@ function movePlayer() {
     game.font = (elementSize * 0.8) + 'px Verdana';
 
     game.fillText(emojis['PLAYER'], posX, posY)
+    playStepSound();
 }
 
 function checkCollision() {
@@ -238,6 +281,10 @@ function showRecord() {
 }
 
 function levelFail() {
+
+    canvas.classList.add('shake');
+    playExplosionSound();
+
     const posX = elementSize * playerPosicion.x + (elementSize / 2);
     const posY = elementSize * playerPosicion.y + (elementSize / 2);
 
@@ -246,6 +293,8 @@ function levelFail() {
     game.fillText(emojis['BOMB_COLLISION'], posX, posY)
     
     setTimeout(() =>{
+
+        canvas.classList.remove('shake');
         lives--;
     
     if (lives <= 0) {
@@ -253,13 +302,22 @@ function levelFail() {
         lives = 3; 
         timeStart = undefined;
         currentMap = undefined;
-        console.log("GAME OVER - Reiniciando...");
+        clearInterval(timeInterval);
 
+        startScreen.classList.remove('hidden');
+        return;
     }
+
+    /* if (music) {
+        music.pause();
+        music.currentTime = 0;
+        music = null;
+    } */
     playerPosicion.x = undefined;
     playerPosicion.y = undefined;
     startGame();
-    },400);
+    },150);
+    
 }
 
 function showLives() {
@@ -269,7 +327,6 @@ function showLives() {
     heartsArray.forEach(heart => {
         spanLives.append(heart);
     });
-
 }
 
 function generateRandomMap() {
@@ -279,7 +336,7 @@ function generateRandomMap() {
 
     while(!solvable){
         const newMap = [];
-        const bombProbility = Math.min(0.15 + (level * 0.5), 0.35);
+        const bombProbility = Math.min(0.15 + (level * 2), 0.5);
 
         for (let i = 0; i < 10; i++) {
             let row = "";
@@ -308,12 +365,55 @@ function isMapSolvable(mapSrting) {
         if (rows[y][x] === 'I') return true;
 
         [[0,1],[0, -1],[1, 0],[-1, 0]].forEach(([dx, dy]) => {
-            let nx = x + dx, ny = y + dy;
-            if (nx >= 0 && nx < 10 && ny >= 0 && ny < 10 && rows[ny][nx] !== 'X' && !visited.has(`${nx},${ny}`)) {
-                visited.add(`${nx},${ny}`);
-                queue.push({x: nx, y: ny});                
+            let nextX = x + dx;
+            let nextY = y + dy;
+
+            if (nextX >= 0 && nextX < 10 && nextY >= 0 && nextY < 10 && rows[nextY][nextX] !== 'X' && !visited.has(`${nextX},${nextY}`)) {
+                visited.add(`${nextX},${nextY}`);
+                queue.push({x: nextX, y: nextY});                
             }
         });
     }
     return false;
+}
+function showLevel() {
+    spanlevel.innerHTML = level + 1;
+}
+
+function backgroundSound() {
+    if (music){
+        music.muted = isMuted;
+        music.play();
+        return;
+    };
+
+    music = new Audio('./Assets/backgroundSound.mp3');
+    music.volume = 0.4;
+    music.loop = true;
+    music.muted = isMuted;
+    music.play();
+
+}
+
+function playExplosionSound() {
+     explosiónAudio.currentTime = 0;
+    explosiónAudio.play();
+}
+
+function playStepSound() {
+    const audioCtx = new (window.AudioContext || window.webAudioContext);
+    const oscillator = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+
+    oscillator.type = 'triangle';
+    oscillator.frequency.setValueAtTime(200, audioCtx.currentTime);
+
+    gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+
+    oscillator.connect(gain)
+    gain.connect(audioCtx.destination);
+
+    oscillator.start();
+    oscillator.stop(audioCtx.currentTime + 0.1);
 }
