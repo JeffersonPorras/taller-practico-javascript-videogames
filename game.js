@@ -46,8 +46,9 @@ btnStart.addEventListener('click', () =>{
 
     btnMute.innerHTML = isMuted ? "🔇" : "🔊";
 
-    if(!music){
+    if(music){
         music.muted = isMuted;
+        music.play().catch(() => {});
     }
 })
 
@@ -304,17 +305,21 @@ function levelFail() {
         currentMap = undefined;
         clearInterval(timeInterval);
 
+        if(music){
+            music.pause();
+            music.currentTime = 0;
+        }
+
+        playerPosicion.x = undefined;
+        playerPosicion.y = undefined;
+
         startScreen.classList.remove('hidden');
         return;
     }
 
-    /* if (music) {
-        music.pause();
-        music.currentTime = 0;
-        music = null;
-    } */
     playerPosicion.x = undefined;
     playerPosicion.y = undefined;
+   
     startGame();
     },150);
     
@@ -381,22 +386,20 @@ function showLevel() {
 }
 
 function backgroundSound() {
-    if (music){
-        music.muted = isMuted;
-        music.play();
-        return;
+    if (!music){
+        music = new Audio('./Assets/backgroundSound.mp3')
+        music.volume = 0.2;
+        music.loop = true;
     };
-
-    music = new Audio('./Assets/backgroundSound.mp3');
-    music.volume = 0.4;
-    music.loop = true;
+ 
+   
     music.muted = isMuted;
-    music.play();
+    music.play().catch(e => console.warn("Audio nloqueado Temporalmente", e))
 
 }
 
 function playExplosionSound() {
-     explosiónAudio.currentTime = 0;
+    explosiónAudio.currentTime = 0;
     explosiónAudio.play();
 }
 
