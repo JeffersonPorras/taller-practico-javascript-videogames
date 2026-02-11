@@ -254,31 +254,24 @@ function levelWin() {
     startGame();
 }
 
-function gameFinished() {
-    console.log('!TERMINASTE EL JUEGO!');
-    clearInterval(timeInterval);
+function saveRecord() {
+    const recordTime = parseFloat(localStorage.getItem('record_time') || 999999);
+    const recordLevel = parseFloat(localStorage.getItem('record_level') || 0);
+    const playerTime = parseFloat(((Date.now() - timeStart) / 1000).toFixed(1));
+    const playerLevel = level + 1;
 
-    const recordTime = localStorage.getItem('record_time');
-    const playerTime = ((Date.now() - timeStart)/ 1000).toFixed(1);
-
-    if (recordTime) {
-        if (recordTime >= playerTime) {
-            localStorage.setItem('record_time', playerTime);
-            console.log('!NUEVO RÉCORD!');
-        }else{
-            console.log('Lo siento, no superaste el récord :(');
-            
-        }
-    }else{
+    if (playerLevel > recordLevel || (playerLevel === recordLevel && playerTime > recordTime)) {
         localStorage.setItem('record_time', playerTime);
-        console.log('Primer récord guardado');
+        localStorage.setItem('record_level', playerLevel);
+        console.log('!Nuevo Récord De Sistema!');
+        
     }
-    showRecord();
-    alert(`!Felicidades! Tu tiempo fue de: ${playerTime}`);
 }
 
 function showRecord() {
-    spanRecord.innerHTML = localStorage.getItem('record_time') || "0.0";
+    const resultTime = localStorage.getItem('record_time') || "0.0";
+    const resultLevel = localStorage.getItem('record_level') || "1";
+    spanRecord.innerHTML = `LVL ${resultLevel} - ${resultTime}`;
 }
 
 function levelFail() {
@@ -299,6 +292,8 @@ function levelFail() {
         lives--;
     
     if (lives <= 0) {
+        saveRecord();
+        showRecord();
         level = 0;
         lives = 3; 
         timeStart = undefined;
