@@ -12,8 +12,10 @@
 }
 
 body{
+    max-width: 100vh;
     width: 100%;
     height: 100vh;
+    overflow-x: hidden;
     background-color: var(--primary-color);
     background: linear-gradient(0deg,rgba(15, 23, 42, 1) 0%, rgba(56, 55, 55, 1) 100%);
 }
@@ -58,6 +60,10 @@ body{
 } 
 
 .titulo-neon {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   font-family: var(--font-family);
   font-size:var(--large-print);
   color: var(--button-color);
@@ -73,6 +79,18 @@ body{
     0 0 92px var(--neon-glow),
     0 0 102px var(--alert-color),
     0 0 151px var(--neon-glow);
+}
+
+.titulo-principal{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+#btn-start{
+  display: flex;
+  align-items: center;
 }
 
 .subtitulo {
@@ -230,4 +248,28 @@ body{
   80% { transform: translate(-1px, -1px) rotate(1deg);}
   90% { transform: translate(1px, 2px) rotate(0deg);}
   100% { transform: translate(1px, 2px) rotate(-1deg);}
+}
+
+@media (max-width: 600px){
+  :root {
+    --large-print: 1.6rem;
+    --medium-print: 1.2rem;
+    --small-print: 1rem;
+  }
+
+  .header{
+    padding: 10px 0;
+  }
+
+  .btn-control{
+    width: 60px;
+    height: 60px;
+    font-size: var(--medium-print);
+  }
+
+  .messages{
+    justify-content: center;
+    gap: 10px;
+    font-size: var(--small-print);
+  }
 }
