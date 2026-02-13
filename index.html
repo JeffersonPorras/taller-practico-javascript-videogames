@@ -12,14 +12,14 @@
 
     <section id="start-screen" class="overlay">
         <div class="titulo-principal">
-            <h1 class="titulo-neon">READY TO<span class="flicker">START</span>?</h1>
+            <h1 class="titulo-neon">READY TO<span class="flicker space">START</span>?</h1>
             <button id="btn-start" class="btn-control">GO!</button>
         </div>
     </section>
 
     <section class="header">
         <div class="contenedor-titulo">
-            <h1 class="titulo-neon">N<span class="flicker">EO</span>N <span class="flicker">LABY</span>RI<span class="flicker">NT</span>H</h1>
+            <h1 class="titulo-neon">N<span class="flicker">EO</span>N <span class="flicker space">LABY</span>RI<span class="flicker">NT</span>H</h1>
             <p class="subtitulo">SYSTEM FAILURE</p>
         </div>
     </section>
@@ -28,29 +28,36 @@
     <section class="main">
 
         <div class="messages">
-                <p>lives : <span id="lives"></span></p>
-                <p>Level: <span id="level"></span></p>
-                <p>Time : <span id="time"></span></p>
-                <p>Record : <span id="record"></span></p>
-                <button id="btn-mute" class="btn-control_mute">🔊</button>
+                <div class="section-one_messages">
+                    <p>lives : <span id="lives"></span></p>
+                    <p>Level: <span id="level"></span></p>
+                    <button id="btn-mute" class="btn-control_mute">🔊</button>
+                </div>
+                <div class="section-two_messages">
+                    <p>Time : <span id="time"></span></p>
+                    <p>Record : <span id="record"></span></p>
+                </div>
         </div>
         
         <div class="game-container">
             <canvas id="game"></canvas>
     
             <div class="controls">
+                <div class="d-pad">
+
+                </div>
                 <button class="btn-control" id="up">
-                    <span class="flecha">↑</span>
+                    <span class="arrow">↑</span>
                 </button>
                 <div class="fila-media">
                     <button class="btn-control" id="left">
-                        <span class="flecha">←</span>
+                        <span class="arrow">←</span>
                     </button>
                     <button class="btn-control" id="down">
-                        <span class="flecha">↓</span>
+                        <span class="arrow">↓</span>
                     </button>
                     <button class="btn-control" id="right">
-                        <span class="flecha">→</span>
+                        <span class="arrow">→</span>
                     </button>
                 </div>
             </div>
