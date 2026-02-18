@@ -11,6 +11,9 @@ const spanlevel = document.querySelector('#level');
 const startScreen = document.querySelector('#start-screen');
 const btnStart = document.querySelector('#btn-start');
 const btnMute = document.querySelector('#btn-mute');
+const gameOverScreen = document.querySelector('#gameOver-screen');
+const btnRetry = document.querySelector('#btn-retry');
+const finalStats = document.querySelector('#final-stats')
 
 
 let canvasSize;
@@ -52,7 +55,19 @@ btnStart.addEventListener('click', () =>{
     }
 })
 
+btnRetry.addEventListener('click', () =>{
+    gameOverScreen.classList.add('hidden');
 
+    level = 0;
+    lives = 3;
+    timeStart = undefined;
+    currentMap = undefined;
+    playerPosicion.x = undefined;
+    playerPosicion.y = undefined;
+
+    backgroundSound();
+    startGame();
+})
 
 function setCanvasSize() {
     if (window.innerHeight > window.innerWidth) {
@@ -294,11 +309,14 @@ function levelFail() {
     if (lives <= 0) {
         saveRecord();
         showRecord();
-        level = 0;
+        /* level = 0;
         lives = 3; 
         timeStart = undefined;
         currentMap = undefined;
-        clearInterval(timeInterval);
+        clearInterval(timeInterval); */
+
+        const totalTime = spanTime.innerHTML;
+        finalStats.innerHTML = `LEVEL ${level + 1} - TIME ${totalTime}s`;
 
         if(music){
             music.pause();
@@ -308,7 +326,7 @@ function levelFail() {
         playerPosicion.x = undefined;
         playerPosicion.y = undefined;
 
-        startScreen.classList.remove('hidden');
+        gameOverScreen.classList.remove('hidden');
         return;
     }
 
